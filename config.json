@@ -1,0 +1,23 @@
+﻿{
+    "database": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "root",
+        "password": "13129926",
+        "database": "masada324"
+    },
+    "secret": "Ill keep a simple string as my secret =)",
+    "emailFrom": "no-reply@freejolitos.com",
+    "smtpOptions": {
+        "port": 465,
+        "host": "smtp.ionos.com",
+        "auth": {
+            "user": "no-reply@freejolitos.com",
+            "pass": "t6aibG*7jS5^eVkZ"
+        },
+        "secure": true,
+        "tls": {
+            "rejectUnauthorized": false
+        }
+    }
+}
