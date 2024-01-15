@@ -4,7 +4,7 @@
         "port": 3306,
         "user": "root",
         "password": "13129926",
-        "database": "masada324"
+        "database": "qr-api-server"
     },
     "secret": "Ill keep a simple string as my secret =)",
     "emailFrom": "no-reply@freejolitos.com",
