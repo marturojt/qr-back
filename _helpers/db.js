@@ -23,6 +23,7 @@ async function initialize() {
     // init models and add them to the exported db object
     db.Account = require('../models/account/account.model')(sequelize);
     db.RefreshToken = require('../models/account/refresh-token.model')(sequelize);
+    db.QrBuzzword = require('../models/qr-buzzword/employee-buzz.model')(sequelize);
 
 
     // define relationships
