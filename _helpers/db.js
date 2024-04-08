@@ -25,11 +25,15 @@ async function initialize() {
     db.RefreshToken = require('../models/account/refresh-token.model')(sequelize);
     db.QrBuzzword = require('../models/qr-buzzword/employee-buzz.model')(sequelize);
 
+    // vcard
+    db.Vcard = require('../models/vcard/vcard.model')(sequelize);
+
 
     // define relationships
     db.Account.hasMany(db.RefreshToken, { onDelete: 'CASCADE' });
     db.RefreshToken.belongsTo(db.Account);
 
     // sync all models with database
-    await sequelize.sync();
+    // await sequelize.sync();
+    await sequelize.sync({ sync: true });
 }

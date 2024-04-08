@@ -7,6 +7,7 @@
         "database": "qr-api-server"
     },
     "secret": "Ill keep a simple string as my secret =)",
+    "apiKey": "7b8b065d2b0fa07f8245a098a2736d51c2f4a4f900263682",
     "emailFrom": "no-reply@freejolitos.com",
     "smtpOptions": {
         "port": 465,

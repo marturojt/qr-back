@@ -6,6 +6,10 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const errorHandler = require('_middleware/error-handler');
 
+const dotenv = require('dotenv');
+const path = require('path');
+dotenv.config({ path: path.join(__dirname, '.env') });
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -17,6 +21,7 @@ app.use(cors({ origin: (origin, callback) => callback(null, true), credentials: 
 // api routes
 app.use('/accounts', require('./components/accounts/accounts.controller'));
 app.use('/qr-buzz', require('./components/qr-buzzword/qr-buzzword.controller'));
+app.use('/vcard', require('./components/vcard/vcard.controller'));
 
 // swagger docs route
 app.use('/api-docs', require('_helpers/swagger'));

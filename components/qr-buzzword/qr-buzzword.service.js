@@ -6,7 +6,8 @@ const qrcodeService = require('_helpers/qr-functions');
 
 module.exports = {
     getEmployeeById,
-    generateSimpleQR
+    generateSimpleQR,
+    newEmployee
 };
 
 async function getEmployeeById(id) {
@@ -17,4 +18,15 @@ async function getEmployeeById(id) {
 async function generateSimpleQR(body) {
     const qrURI = await qrcodeService.generateQRCode(body.text);
     return qrURI;
+}
+
+async function newEmployee(params) {
+    // Validate
+    if (await db.QrBuzzword.findByPk(params.buzzwordId)) {
+        throw 'Employee "' + params.buzzwordId + '" is already registered';
+    }
+
+    // Create employee
+    const employee = new db.QrBuzzword(params);
+    await employee.save();
 }
