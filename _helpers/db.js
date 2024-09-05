@@ -14,6 +14,7 @@ async function initialize() {
 
     // connect to db
     const sequelize = new Sequelize(database, user, password, {
+        host: host,
         useUTC: false,
         // timezone: 'America/Mexico_City',
         timezone: '-05:00',
@@ -35,5 +36,5 @@ async function initialize() {
 
     // sync all models with database
     // await sequelize.sync();
-    await sequelize.sync({ sync: true });
+    await sequelize.sync({ alter: true });
 }
