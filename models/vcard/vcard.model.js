@@ -15,7 +15,8 @@ function model(sequelize) {
         telefonoOficina: { type: DataTypes.STRING },
         Address: { type: DataTypes.STRING },
         LinkedInURL: { type: DataTypes.STRING },
-        foto: { type: DataTypes.TEXT('long') }
+        foto: { type: DataTypes.TEXT('long') },
+        vcf: { type: DataTypes.TEXT('long') }
     };
 
     const options = {
