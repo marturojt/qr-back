@@ -1,22 +1,42 @@
-const { config } = require('config.json');
-const { Op } = require('sequelize');
 const db = require('_helpers/db');
-const Role = require('_helpers/role');
-
-
 
 module.exports = {
-    getVcardData
+    getAll,
+    getById,
+    create,
+    update,
+    delete: _delete
 };
 
-// function to get all vcard data for certain user
-async function getVcardData(id) {
-    const vcard = await db.Vcard.findAll({
-        where: {
-            contactId: id
-        }
+async function getAll() {
+    return await db.Vcard.findAll({
+        attributes: { exclude: ['foto', 'vcf'] }
     });
+}
 
-    if (vcard.length === 0) throw 'Vcard not found';
-    return vcard[0];
+async function getById(id) {
+    const vcard = await db.Vcard.findOne({ where: { contactID: id } });
+    if (!vcard) throw 'Vcard no encontrada';
+    return vcard;
+}
+
+async function create(params) {
+    const vcard = new db.Vcard(params);
+    await vcard.save();
+    return vcard;
+}
+
+async function update(id, params) {
+    const vcard = await db.Vcard.findOne({ where: { contactID: id } });
+    if (!vcard) throw 'Vcard no encontrada';
+
+    Object.assign(vcard, params);
+    await vcard.save();
+    return vcard;
+}
+
+async function _delete(id) {
+    const vcard = await db.Vcard.findOne({ where: { contactID: id } });
+    if (!vcard) throw 'Vcard no encontrada';
+    await vcard.destroy();
 }

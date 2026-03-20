@@ -1,4 +1,3 @@
-const config = require('config.json');
 const mysql = require('mysql2/promise');
 const { Sequelize } = require('sequelize');
 
@@ -7,34 +6,31 @@ module.exports = db = {};
 initialize();
 
 async function initialize() {
-    // create db if it doesn't already exist
-    const { host, port, user, password, database } = config.database;
-    const connection = await mysql.createConnection({ host, port, user, password });
-    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
+    const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 
-    // connect to db
-    const sequelize = new Sequelize(database, user, password, {
-        host: host,
+    const connection = await mysql.createConnection({
+        host: DB_HOST,
+        port: DB_PORT,
+        user: DB_USER,
+        password: DB_PASSWORD
+    });
+    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`;`);
+
+    const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+        host: DB_HOST,
         useUTC: false,
-        // timezone: 'America/Mexico_City',
         timezone: '-05:00',
         dialect: 'mysql'
     });
 
-    // init models and add them to the exported db object
     db.Account = require('../models/account/account.model')(sequelize);
     db.RefreshToken = require('../models/account/refresh-token.model')(sequelize);
-    db.QrBuzzword = require('../models/qr-buzzword/employee-buzz.model')(sequelize);
-
-    // vcard
     db.Vcard = require('../models/vcard/vcard.model')(sequelize);
 
-
-    // define relationships
     db.Account.hasMany(db.RefreshToken, { onDelete: 'CASCADE' });
     db.RefreshToken.belongsTo(db.Account);
 
-    // sync all models with database
-    // await sequelize.sync();
-    await sequelize.sync({ alter: true });
+    if (process.env.NODE_ENV !== 'production') {
+        await sequelize.sync();
+    }
 }

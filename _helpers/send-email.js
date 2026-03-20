@@ -1,9 +1,9 @@
-const nodemailer = require('nodemailer');
-const config = require('config.json');
+const { Resend } = require('resend');
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 module.exports = sendEmail;
 
-async function sendEmail({ to, subject, html, from = config.emailFrom }) {
-    const transporter = nodemailer.createTransport(config.smtpOptions);
-    await transporter.sendMail({ from, to, subject, html });
+async function sendEmail({ to, subject, html, from = process.env.EMAIL_FROM }) {
+    await resend.emails.send({ from, to, subject, html });
 }
