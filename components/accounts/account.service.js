@@ -121,6 +121,9 @@ async function create(params) {
     }
 
     const account = new db.Account(params);
+    // firstName/lastName son columnas legacy NOT NULL — se mapean desde los campos en español
+    account.firstName = params.nombres;
+    account.lastName  = params.primerApellido;
     account.verificationToken = randomTokenString();
     account.passwordHash = await hash(params.password);
     await account.save();
@@ -154,6 +157,8 @@ async function update(id, params) {
     }
 
     Object.assign(account, params);
+    if (params.nombres)        account.firstName = params.nombres;
+    if (params.primerApellido) account.lastName  = params.primerApellido;
     account.updated = Date.now();
     await account.save();
 
