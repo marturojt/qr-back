@@ -8,10 +8,10 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const errorHandler = require('_middleware/error-handler');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(cors({ origin: (_origin, callback) => callback(null, true), credentials: true }));
+app.use(bodyParser.urlencoded({ extended: false, limit: '10mb' }));
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cookieParser());
-app.use(cors({ origin: (origin, callback) => callback(null, true), credentials: true }));
 
 // routes
 app.use('/accounts', require('./components/accounts/accounts.controller'));
